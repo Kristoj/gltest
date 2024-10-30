@@ -22,6 +22,7 @@ Window :: struct
 {
 	width : i32,	
 	height: i32,
+	aspectRatio: f32,
 	handle: glfw.WindowHandle,
 }
 window: Window
@@ -30,6 +31,7 @@ init_window :: proc()
 {
 	window.width  = 1600
 	window.height = 900
+	window.aspectRatio = f32(1600) / f32(900)
 	
 	if glfw.Init() == false do panic("Could not init GLFW")
 	
@@ -73,7 +75,7 @@ main_loop :: proc()
 		{
 			continue
 		}
-		print_fps()
+		// print_fps()
 		
 		// Update frame times
 		frame.dt = f32(glfw.GetTime() - frame.lastFrametime)

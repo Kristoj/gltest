@@ -97,3 +97,16 @@ parse_mesh_data :: proc($T: typeid, accessor: ^cgltf.accessor) -> []T
 
 	return slice
 }
+
+get_mesh :: proc { get_mesh_by_handle, get_mesh_primitive }
+
+get_mesh_by_handle :: proc(handle: MeshHandle) -> ^Mesh
+{
+	return &renderStorage.meshes[handle]
+}
+
+get_mesh_primitive :: proc(primitive: Primitive) -> ^Mesh
+{
+	return &renderStorage.meshes[primitive]
+}
+
