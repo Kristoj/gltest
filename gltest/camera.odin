@@ -30,7 +30,7 @@ init_camera :: proc()
 	camera.fov = math.PI / 2
 	camera.position = {0, 2, 3}
 	camera.moveSpeed = 5
-	camera.rotateSpeed = 1
+	camera.rotateSpeed = 0.0009
 }
 
 tick_camera :: proc()
@@ -65,12 +65,12 @@ update_camera_vectors :: proc()
 
 rotate_camera :: proc()
 {
-	speed := camera.rotateSpeed * frame.dt
+	speed := camera.rotateSpeed   
 	camera.yaw   += input.mouseDelta.x * speed
 	camera.pitch -= input.mouseDelta.y * speed  
 
 	// Clamp camera rotation
-	maxAngle : f32= math.PI * 0.49
+	maxAngle := f32(math.PI * 0.49)
 	camera.pitch = math.clamp(camera.pitch, -maxAngle, maxAngle)
 }
 

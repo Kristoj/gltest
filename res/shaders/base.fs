@@ -132,7 +132,7 @@ void main()
 	vec3 fog = vec3(linearDepth);
 	
 	// vec3 final = diffuse * atten * tint + ambientLight;
-	vec3 final = (dlightResult + posterize(plightResult + slightResult) + ambientLight);
+	vec3 final = (dlightResult + plightResult + slightResult + ambientLight);
 	final = clamp(final, 0.0, 1.0);
 	
 	FragColor = texture(tex0, TexCoord0) * vec4(final, 1.0);

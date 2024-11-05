@@ -90,6 +90,8 @@ init_renderer :: proc()
 	
 	gl.ClearColor(0.1, 0.1, 0.1, 1)
 	gl.Enable(gl.DEPTH_TEST)
+
+	// linalg.matrix_ortho3d_f32()
 }
 
 spitterPos: Vec3
@@ -146,14 +148,14 @@ tick_renderer :: proc()
 		set_uniform(shader.id, "pointLights[0].linear",    0.09)
 		set_uniform(shader.id, "pointLights[0].quadratic", 0.832)
 		
-		// set_uniform(shader.id, "spotLights[0].pos",  spotPos)
-		// set_uniform(shader.id, "spotLights[0].col",  Vec3{1, 0, 0})
-		// set_uniform(shader.id, "spotLights[0].dir",  Vec3{0, -1, 0})
-		// set_uniform(shader.id, "spotLights[0].constant",  1.0)
-		// set_uniform(shader.id, "spotLights[0].linear",    0.09)
-		// set_uniform(shader.id, "spotLights[0].quadratic", 0.032)
-		// set_uniform(shader.id, "spotLights[0].innerCone", math.cos_f32(math.PI * 0.2))
-		// set_uniform(shader.id, "spotLights[0].outerCone", math.cos_f32(math.PI * 0.5))
+		set_uniform(shader.id, "spotLights[0].pos",  spotPos)
+		set_uniform(shader.id, "spotLights[0].col",  Vec3{1, 0, 0})
+		set_uniform(shader.id, "spotLights[0].dir",  Vec3{0, -1, 0})
+		set_uniform(shader.id, "spotLights[0].constant",  1.0)
+		set_uniform(shader.id, "spotLights[0].linear",    0.09)
+		set_uniform(shader.id, "spotLights[0].quadratic", 0.032)
+		set_uniform(shader.id, "spotLights[0].innerCone", math.cos_f32(math.PI * 0.2))
+		set_uniform(shader.id, "spotLights[0].outerCone", math.cos_f32(math.PI * 0.26))
 	}
 	gl.UseProgram(0)
 

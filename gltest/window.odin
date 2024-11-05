@@ -51,10 +51,15 @@ init_window :: proc()
 
 	gl.ClearColor(0.1, 0.1, 0.1, 1)
 	gl.Viewport(0, 0, window.width, window.height)
+
+	// Input mode
 	glfw.SetInputMode(window.handle, glfw.CURSOR, glfw.CURSOR_DISABLED)
+	if glfw.RawMouseMotionSupported()
+	{
+		glfw.SetInputMode(window.handle, glfw.RAW_MOUSE_MOTION, 1)
+	}
 
 	// Target fps
-	glfw.SwapInterval(0)
 	frame.targetFps = 144
 	
 	
@@ -70,17 +75,19 @@ main_loop :: proc()
 	for !glfw.WindowShouldClose(window.handle)
 	{
 		glfw.PollEvents()
-
+		
+		// Wait untill enough time has passed
+		// to hit the target fps 
 		if frame.lastFrametime + (1 / f64(frame.targetFps)) > glfw.GetTime()
 		{
 			continue
 		}
-		// print_fps()
+		print_fps()
 		
 		// Update frame times
-		frame.dt = f32(glfw.GetTime() - frame.lastFrametime)
+		frame.dt = f32((glfw.GetTime() - frame.lastFrametime))
 		frame.lastFrametime = glfw.GetTime()
-				
+		
 		tick_input()
 		tick_camera()
 		tick_renderer()
@@ -97,7 +104,7 @@ print_fps :: proc()
 	now := glfw.GetTime()
 	if now >= frame.nextFpsUpdateTime
 	{
-		fmt.println("FPS:", frame.fps)
+		// fmt.println("FPS:", frame.fps)
 		frame.fps = 0
 		frame.nextFpsUpdateTime = now + 1 
 	}

@@ -19,16 +19,16 @@ import "vendor:stb/truetype"
 
 Input :: struct
 {
-	move:          Vec3,
-	mouseDelta:    Vec2,
-	lastCursorPos: Vec2,
-	cursorPos:     Vec2,
+	move:           Vec3,
+	mouseDelta:     Vec2,
+	lastCursorPos:  Vec2,
 }
 input: Input
 
 
 tick_input :: proc()
 {
+	update_cursor_pos()
     check_input()	
 }
 
@@ -41,13 +41,6 @@ reset_input :: proc()
 firstInputFrame := true
 check_input :: proc()
 {
-	// First frame stuff
-	if firstInputFrame
-	{
-		input.cursorPos = glfw.GetCursorPosVec(window.handle)
-		input.lastCursorPos = input.cursorPos
-		firstInputFrame = false
-	}
 	if glfw.GetKey(window.handle, glfw.KEY_W) == glfw.PRESS do input.move.z += 1
 	if glfw.GetKey(window.handle, glfw.KEY_S) == glfw.PRESS do input.move.z -= 1
 	if glfw.GetKey(window.handle, glfw.KEY_D) == glfw.PRESS do input.move.x += 1
@@ -65,11 +58,20 @@ key_callback :: proc "c" (window: glfw.WindowHandle, key, scancode, action, mods
 	}
 }
 
-cursor_pos_callback :: proc "c" (window: glfw.WindowHandle, xpos,  ypos: f64)
+update_cursor_pos :: proc()
 {
-	cpos := Vec2{f32(xpos), f32(ypos)}
-	input.cursorPos = cpos
-	context = runtime.default_context()
+	// First frame stuff
+	if firstInputFrame
+	{
+		input.lastCursorPos = glfw.GetCursorPosVec(window.handle)
+		firstInputFrame = false
+	}
+	
+	cpos := glfw.GetCursorPosVec(window.handle)
 	input.mouseDelta = cpos - input.lastCursorPos 
 	input.lastCursorPos = cpos
+}
+
+cursor_pos_callback :: proc "c" (window: glfw.WindowHandle, xpos,  ypos: f64)
+{
 }
